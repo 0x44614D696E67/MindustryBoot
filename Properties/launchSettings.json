@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MindustryBoot (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MindustryBoot (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
