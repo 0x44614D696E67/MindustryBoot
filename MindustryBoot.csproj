@@ -39,6 +39,9 @@
     <Page Update="Controls\MapShow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="Controls\ItemShow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="T4Templates\NavigationPageMappings.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NavigationPageMappings.cs</LastGenOutput>
@@ -91,6 +94,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Controls\ItemShow.xaml" />
     <None Remove="Controls\MapShow.xaml" />
     <None Remove="Views\DownloadPage.xaml" />
     <None Remove="Views\Downloads\DGamePage.xaml" />
