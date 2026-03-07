@@ -1,0 +1,12 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/.vs/MindustryBoot/CopilotIndices/18.3.95.3864
+/.vs/MindustryBoot.slnx/DesignTimeBuild
+/.vs/MindustryBoot.slnx/FileContentIndex
+/.vs/MindustryBoot.slnx/v18
+/.vs/ProjectEvaluation
+/bin/x86/Debug/net10.0-windows10.0.26100.0/win-x86
+/obj
+/Properties
