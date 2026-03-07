@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="MindustryBoot.Views.Downloads.DMapPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dev="using:DevWinUI"
+    xmlns:local="using:MindustryBoot.Views.Downloads"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:types="using:MindustryBoot.Types"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="StaggeredTemplate"  />
+    </Page.Resources>
+
+    <StackPanel Spacing="4">
+        <dev:SelectorBarSegmented>
+            <SelectorBarItem
+                Icon="{dev:FontIcon Glyph=&#xECAD;}"
+                IsSelected="True"
+                Text="热度" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE945;}" Text="更新时间" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE917;}" Text="发布时间" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xEBD3;}" Text="下载量" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE8F2;}" Text="评分" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE8E1;}" Text="点赞数" />
+        </dev:SelectorBarSegmented>
+
+        <dev:SelectorBarSegmented>
+            <SelectorBarItem
+                Icon="{dev:FontIcon Glyph=&#xE8A9;}"
+                IsSelected="True"
+                Text="全部" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE774;}" Text="生存" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE835;}" Text="PvP" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE759;}" Text="进攻" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE7B8;}" Text="沙盒" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE771;}" Text="编辑器" />
+            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE9CE;}" Text="未分类" />
+        </dev:SelectorBarSegmented>
+
+        <Grid>
+            <ScrollViewer>
+                <muxc:ItemsRepeater
+                    x:Name="StaggeredRepeater"
+                    ItemTemplate="{StaticResource StaggeredTemplate}"
+                    ItemsSource="{x:Bind MapsCollection, Mode=OneWay}">
+                    <muxc:ItemsRepeater.Layout>
+                        <controls:StaggeredLayout
+                            ColumnSpacing="5"
+                            DesiredColumnWidth="250"
+                            ItemsStretch="Fill"
+                            RowSpacing="5" />
+                    </muxc:ItemsRepeater.Layout>
+                </muxc:ItemsRepeater>
+            </ScrollViewer>
+        </Grid>
+    </StackPanel>
+</Page>

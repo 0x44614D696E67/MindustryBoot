@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="MindustryBoot.Views.DownloadPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:MindustryBoot.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Margin="16,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <SelectorBar
+            x:Name="DownloadTypeSelectorBar"
+            Grid.Row="0"
+            SelectionChanged="DownloadTypeSelectorBar_SelectionChanged">
+            <SelectorBarItem
+                x:Name="DGamePage"
+                IsSelected="True"
+                Text="Game" />
+            <SelectorBarItem x:Name="DJavaPage" Text="Java" />
+            <SelectorBarItem x:Name="DMapPage" Text="Maps" />
+            <SelectorBarItem x:Name="DModPage" Text="Mods" />
+        </SelectorBar>
+
+        <Frame
+            x:Name="ContentFrame"
+            Grid.Row="1"
+            IsNavigationStackEnabled="False" />
+    </Grid>
+</Page>
