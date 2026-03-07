@@ -46,8 +46,9 @@
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                     TextAlignment="Center"
                     TextWrapping="Wrap">
-                    <Run Text="WinUI 3 驱动的 Mindustry 启动器！" />
-                    <Hyperlink NavigateUri="https://aka.ms/ai-dev-gallery">preview</Hyperlink><Run Text="." />
+                    <Run Text="WinUI 3 驱动的" />
+                    <Hyperlink NavigateUri="https://github.com/0x44614D696E67/MindustryBoot">开源</Hyperlink>
+                    <Run Text=" Mindustry 启动器！" />
                 </TextBlock>
             </dev:HeaderCarousel.SecondaryHeader>
             <dev:HeaderCarouselItem
