@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using MindustryBoot.BaoMa.Getter;
 using MindustryBoot.Types;
 
@@ -33,21 +34,21 @@ public sealed partial class DMapPage : Page
             );
 
             // 3. 输出结果
-            Console.WriteLine($"成功获取 {MapsCollection.Count} 个地图：");
+            Debug.WriteLine($"成功获取 {MapsCollection.Count} 个地图：");
             foreach (var map in MapsCollection)
             {
-                Console.WriteLine($"- {map.Name} (ID: {map.Id}, 版本: {map.Version ?? "未知"})");
+                Debug.WriteLine($"- {map.Name} (ID: {map.Id}, 版本: {map.Version ?? "未知"})");
             }
         }
         catch (HttpRequestException ex)
         {
             // 处理网络或 HTTP 错误
-            Console.WriteLine($"HTTP 请求失败: {ex.Message}");
+            Debug.WriteLine($"HTTP 请求失败: {ex.Message}");
         }
         catch (InvalidOperationException ex)
         {
             // 处理数据解析错误
-            Console.WriteLine($"数据无效: {ex.Message}");
+            Debug.WriteLine($"数据无效: {ex.Message}");
         }
         catch (Exception ex)
         {

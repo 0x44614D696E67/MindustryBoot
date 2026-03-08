@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using MindustryBoot.Types;
@@ -81,7 +82,8 @@ internal class MapGetter
 
         // 7. 读取并反序列化 JSON 内容
         string json = await response.Content.ReadAsStringAsync();
-        var maps = JsonSerializer.Deserialize<ObservableCollection<MapType>>(json);
+        Debug.WriteLine(json);
+        var maps = JsonSerializer.Deserialize<List<MapType>>(json);
 
         // 8. 如果反序列化后为 null（例如响应为空或格式错误），则抛出异常
         if (maps == null)
@@ -105,6 +107,6 @@ internal class MapGetter
             }
         }
 
-        return maps;
+        return new ObservableCollection<MapType>(maps);
     }
 }

@@ -22,7 +22,7 @@ internal class MapType
     public string Describes { get; set; }
 
     [JsonPropertyName("preview")]
-    public IconSource PreviewImg { get; set; }
+    public string PreviewImg { get; set; }
 
     [JsonPropertyName("width")]
     public int Width { get; set; }

@@ -17,8 +17,7 @@
         <DataTemplate x:Key="StaggeredTemplate" x:DataType="types:MapType">
             <controls1:ItemShow
                 Describes="{x:Bind Describes}"
-                Header="{x:Bind Name}"
-                IconSource="{x:Bind PreviewImg}" />
+                Header="{x:Bind Name}"/>
         </DataTemplate>
     </Page.Resources>
 
