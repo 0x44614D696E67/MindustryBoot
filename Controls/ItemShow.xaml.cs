@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -28,34 +29,44 @@ public sealed partial class ItemShow : UserControl
     private const int EnterDelayMs = 300;  // 悬停延迟（毫秒）
     private const int ExitDelayMs = 100;    // 离开延迟（毫秒）
 
+    private ImageSource _iconSource = null;
+
     public ItemShow()
     {
         InitializeComponent();
     }
     // 依赖属性
     public static readonly DependencyProperty IconSourceProperty =
-        DependencyProperty.Register(nameof(IconSource), typeof(ImageSource), typeof(ItemShow), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(IconSource), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
     public static readonly DependencyProperty TitleProperty =
-        DependencyProperty.Register(nameof(Title), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(nameof(Header), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
     public static readonly DependencyProperty SubtitleProperty =
-        DependencyProperty.Register(nameof(Subtitle), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(nameof(Describes), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
     public static readonly DependencyProperty AuthorProperty =
         DependencyProperty.Register(nameof(Author), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
     public static readonly DependencyProperty DetailProperty =
         DependencyProperty.Register(nameof(Detail), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
     public static readonly DependencyProperty DownloadCommandProperty =
         DependencyProperty.Register(nameof(DownloadCommand), typeof(ICommand), typeof(ItemShow), new PropertyMetadata(null));
-    public ImageSource IconSource
+    public string IconSource
     {
-        get => (ImageSource)GetValue(IconSourceProperty);
-        set => SetValue(IconSourceProperty, value);
+        get => (string)GetValue(IconSourceProperty);
+        set
+        {
+            SetValue(IconSourceProperty, value);
+            BitmapImage bitmapIconSource = new BitmapImage
+            {
+                UriSource = new Uri(IconSource)
+            };
+            _iconSource = bitmapIconSource;
+        }
     }
-    public string Title
+    public string Header
     {
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
-    public string Subtitle
+    public string Describes
     {
         get => (string)GetValue(SubtitleProperty);
         set => SetValue(SubtitleProperty, value);

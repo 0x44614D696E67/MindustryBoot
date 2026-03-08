@@ -57,7 +57,7 @@
                 <Image
                     Width="64"
                     Height="64"
-                    Source="{x:Bind IconSource, Mode=OneWay}"
+                    Source="{x:Bind _iconSource, Mode=OneWay}"
                     Stretch="Uniform" />
             </Border>
 
@@ -74,7 +74,7 @@
                 <TextBlock
                     Grid.Row="0"
                     Style="{StaticResource BodyStrongTextBlockStyle}"
-                    Text="{x:Bind Title, Mode=OneWay}" />
+                    Text="{x:Bind Header, Mode=OneWay}" />
 
                 <!--  重叠容器：副标题和详细介绍在同一位置  -->
                 <Grid Grid.Row="1">
@@ -84,7 +84,7 @@
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Opacity="1"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind Subtitle, Mode=OneWay}" />
+                        Text="{x:Bind Describes, Mode=OneWay}" />
 
                     <!--  详细介绍（默认隐藏）  -->
                     <TextBlock
@@ -104,16 +104,18 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom">
                 <!--  作者名称  -->
-                <TextBlock
-                    x:Name="AuthorTextBlock"
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    RenderTransformOrigin="0.5,0.5"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind Author, Mode=OneWay}">
-                    <TextBlock.RenderTransform>
+                <Grid Background="Transparent">
+                    <Grid.RenderTransform>
                         <TranslateTransform x:Name="AuthorTranslate" Y="0" />
-                    </TextBlock.RenderTransform>
-                </TextBlock>
+                    </Grid.RenderTransform>
+                    <TextBlock
+                        x:Name="AuthorTextBlock"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        RenderTransformOrigin="0.5,0.5"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind Author, Mode=OneWay}" />
+                </Grid>
+
 
                 <!--  下载按钮  -->
                 <Button
@@ -310,7 +312,7 @@
                         <DoubleAnimation
                             Storyboard.TargetName="ImageScaleTransform"
                             Storyboard.TargetProperty="ScaleX"
-                            To="0.8"
+                            To="0.8334"
                             Duration="0:0:0.2">
                             <DoubleAnimation.EasingFunction>
                                 <CubicEase EasingMode="EaseInOut" />
@@ -319,7 +321,7 @@
                         <DoubleAnimation
                             Storyboard.TargetName="ImageScaleTransform"
                             Storyboard.TargetProperty="ScaleY"
-                            To="0.8"
+                            To="0.8334"
                             Duration="0:0:0.2">
                             <DoubleAnimation.EasingFunction>
                                 <CubicEase EasingMode="EaseInOut" />
@@ -346,24 +348,6 @@
                         </DoubleAnimation>
 
                         <!--  作者上移并淡出  -->
-                        <!--DoubleAnimation
-                            Storyboard.TargetName="AuthorTranslate"
-                            Storyboard.TargetProperty="Y"
-                            To="-30"
-                            Duration="0:0:0.3">
-                            <DoubleAnimation.EasingFunction>
-                                <ExponentialEase EasingMode="EaseOut" Exponent="7" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation
-                            Storyboard.TargetName="AuthorTextBlock"
-                            Storyboard.TargetProperty="Opacity"
-                            To="0"
-                            Duration="0:0:0.3">
-                            <DoubleAnimation.EasingFunction>
-                                <ExponentialEase EasingMode="EaseOut" Exponent="7" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation-->
                         <DoubleAnimation
                             Storyboard.TargetName="AuthorTranslate"
                             Storyboard.TargetProperty="Y"
@@ -383,28 +367,8 @@
                             </DoubleAnimation.EasingFunction>
                         </DoubleAnimation>
 
+
                         <!--  下载按钮上移并淡入  -->
-                        <!--DoubleAnimation
-                            Storyboard.TargetName="DownloadButton"
-                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
-                            To="-30"
-                            Duration="0:0:0.3">
-                            <DoubleAnimation.EasingFunction>
-                                <ExponentialEase EasingMode="EaseOut" Exponent="7" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation
-                            Storyboard.TargetName="DownloadButton"
-                            Storyboard.TargetProperty="Opacity"
-                            To="1"
-                            Duration="0:0:0.3">
-                            <DoubleAnimation.EasingFunction>
-                                <ExponentialEase EasingMode="EaseOut" Exponent="7" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DownloadButton" Storyboard.TargetProperty="IsHitTestVisible">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />
-                        </ObjectAnimationUsingKeyFrames-->
                         <DoubleAnimation
                             Storyboard.TargetName="ButtonTranslate"
                             Storyboard.TargetProperty="Y"

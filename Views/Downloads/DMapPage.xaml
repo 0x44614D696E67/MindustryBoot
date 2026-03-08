@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:controls1="using:MindustryBoot.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dev="using:DevWinUI"
     xmlns:local="using:MindustryBoot.Views.Downloads"
@@ -13,7 +14,12 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="StaggeredTemplate"  />
+        <DataTemplate x:Key="StaggeredTemplate" x:DataType="types:MapType">
+            <controls1:ItemShow
+                Describes="{x:Bind Describes}"
+                Header="{x:Bind Name}"
+                IconSource="{x:Bind PreviewImg}" />
+        </DataTemplate>
     </Page.Resources>
 
     <StackPanel Spacing="4">

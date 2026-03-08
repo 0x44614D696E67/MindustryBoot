@@ -89,11 +89,11 @@
             Spacing="8">
             <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="你的游戏" />
             <controls:ItemShow
-                Title="示例标题"
                 Author="作者名"
+                Describes="副标题"
                 Detail="文本文本文本文本文本文本文本文本文本文本文本文本文本"
-                IconSource="ms-appx:///Assets/AppIcon.png"
-                Subtitle="副标题" />
+                Header="示例标题"
+                IconSource="ms-appx:///Assets/AppIcon.png" />
         </StackPanel>
     </Grid>
 </Page>
