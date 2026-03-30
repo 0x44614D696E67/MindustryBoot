@@ -24,7 +24,7 @@ public partial class App : Application
         ThemeService = new ThemeService().Initialize(MainWindow);
 
         MainWindow.Activate();
-        
+
 
         InitializeApp();
     }

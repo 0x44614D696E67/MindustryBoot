@@ -3,6 +3,7 @@
     x:Class="MindustryBoot.Views.Downloads.DMapPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:controls1="using:MindustryBoot.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,10 +15,38 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <animations:ImplicitAnimationSet x:Name="ShowTransitions">
+            <animations:OffsetAnimation
+                EasingMode="EaseOut"
+                From="0,24,0"
+                To="0"
+                Duration="0:0:0.4" />
+            <animations:OpacityAnimation
+                EasingMode="EaseOut"
+                From="0"
+                To="1"
+                Duration="0:0:0.2" />
+        </animations:ImplicitAnimationSet>
+        <animations:ImplicitAnimationSet x:Name="HideTransitions">
+            <animations:OffsetAnimation
+                EasingMode="EaseOut"
+                From="0"
+                To="0,24,0"
+                Duration="0:0:0.2" />
+            <animations:OpacityAnimation
+                EasingMode="EaseOut"
+                From="1"
+                To="0"
+                Duration="0:0:0.1" />
+        </animations:ImplicitAnimationSet>
+
+
         <DataTemplate x:Key="StaggeredTemplate" x:DataType="types:MapType">
             <controls1:ItemShow
-                Describes="{x:Bind Describes}"
-                Header="{x:Bind Name}"/>
+                Describes="{x:Bind Mode}"
+                Detail="{x:Bind Describes}"
+                Header="{x:Bind Name}"
+                IconSource="{x:Bind PreviewImg}" />
         </DataTemplate>
     </Page.Resources>
 
@@ -47,21 +76,48 @@
             <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE9CE;}" Text="未分类" />
         </dev:SelectorBarSegmented>
 
-        <Grid>
-            <ScrollViewer>
-                <muxc:ItemsRepeater
-                    x:Name="StaggeredRepeater"
-                    ItemTemplate="{StaticResource StaggeredTemplate}"
-                    ItemsSource="{x:Bind MapsCollection, Mode=OneWay}">
-                    <muxc:ItemsRepeater.Layout>
-                        <controls:StaggeredLayout
-                            ColumnSpacing="5"
-                            DesiredColumnWidth="250"
-                            ItemsStretch="Fill"
-                            RowSpacing="5" />
-                    </muxc:ItemsRepeater.Layout>
-                </muxc:ItemsRepeater>
-            </ScrollViewer>
-        </Grid>
+        <controls:SwitchPresenter
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            TargetType="x:Boolean"
+            Value="{x:Bind LoadingState, Mode=OneWay}">
+            <controls:Case Value="True">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    animations:Implicit.HideAnimations="{StaticResource HideTransitions}"
+                    animations:Implicit.ShowAnimations="{StaticResource ShowTransitions}"
+                    Orientation="Vertical"
+                    Spacing="8">
+                    <muxc:ProgressRing IsActive="{x:Bind LoadingState, Mode=OneWay}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="加载中..." />
+                </StackPanel>
+            </controls:Case>
+            <controls:Case Value="False">
+                <ScrollViewer animations:Implicit.HideAnimations="{StaticResource HideTransitions}" animations:Implicit.ShowAnimations="{StaticResource ShowTransitions}">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind MapsCollection.Count, Mode=OneWay}" />
+                        <muxc:ItemsRepeater
+                            x:Name="StaggeredRepeater"
+                            Clip="{x:Null}"
+                            ItemTemplate="{StaticResource StaggeredTemplate}"
+                            ItemsSource="{x:Bind MapsCollection, Mode=OneWay}">
+                            <muxc:ItemsRepeater.Layout>
+                                <controls:StaggeredLayout
+                                    ColumnSpacing="5"
+                                    DesiredColumnWidth="315"
+                                    ItemsStretch="Fill"
+                                    RowSpacing="5" />
+                            </muxc:ItemsRepeater.Layout>
+                        </muxc:ItemsRepeater>
+                    </StackPanel>
+
+                </ScrollViewer>
+            </controls:Case>
+        </controls:SwitchPresenter>
+
     </StackPanel>
 </Page>

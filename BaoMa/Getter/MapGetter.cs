@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
 using System.Text.Json;
 using MindustryBoot.Types;
-using Windows.Web.Http;
 
 namespace MindustryBoot.BaoMa.Getter;
 
@@ -24,7 +20,13 @@ internal class MapGetter
     /// <returns>地图类型列表</returns>
     /// <exception cref="HttpRequestException">当HTTP请求失败时抛出</exception>
     /// <exception cref="InvalidOperationException">当响应内容无法反序列化为有效数据时抛出</exception>
-    public async Task<ObservableCollection<MapType>> GetMapsAsync(int begin, string mode, string version, string sorting, string search)
+    public async Task<ObservableCollection<MapType>> GetMapsAsync(
+        int begin,
+        string mode,
+        string version,
+        string sorting,
+        string search
+    )
     {
         // 1. 构建基础 URL
         var uriBuilder = new UriBuilder("https://api.mindustry.top/maps/list");
@@ -66,7 +68,7 @@ internal class MapGetter
         uriBuilder.Query = string.Join("&", queryParameters);
 
         // 输出完整请求 URL（便于调试）
-        System.Diagnostics.Debug.WriteLine($"请求 URL：{uriBuilder.Uri}");
+        Debug.WriteLine($"请求 URL：{uriBuilder.Uri}");
 
         // 5. 创建并发送 HTTP 请求
         using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, uriBuilder.Uri);

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using MindustryBoot.Helpers;
 
 namespace MindustryBoot.Types;
@@ -9,7 +6,7 @@ namespace MindustryBoot.Types;
 /// <summary>
 /// 地图类型（概要信息）类，对应 /maps/list 接口返回的 JSON 结构
 /// </summary>
-internal class MapType
+public class MapType
 {
 
     [JsonPropertyName("id")]

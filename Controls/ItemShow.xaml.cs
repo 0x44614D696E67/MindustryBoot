@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
+﻿using System.Windows.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Media.Devices;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -34,6 +21,7 @@ public sealed partial class ItemShow : UserControl
     public ItemShow()
     {
         InitializeComponent();
+        // 移除构造函数中的图片初始化逻辑
     }
     // 依赖属性
     public static readonly DependencyProperty IconSourceProperty =
@@ -54,11 +42,25 @@ public sealed partial class ItemShow : UserControl
         set
         {
             SetValue(IconSourceProperty, value);
-            BitmapImage bitmapIconSource = new BitmapImage
+            if (!string.IsNullOrEmpty(value))
             {
-                UriSource = new Uri(IconSource)
-            };
-            _iconSource = bitmapIconSource;
+                try
+                {
+                    BitmapImage bitmapIconSource = new BitmapImage
+                    {
+                        UriSource = new Uri(value)
+                    };
+                    _iconSource = bitmapIconSource;
+                }
+                catch
+                {
+                    _iconSource = null;
+                }
+            }
+            else
+            {
+                _iconSource = null;
+            }
         }
     }
     public string Header
@@ -91,6 +93,7 @@ public sealed partial class ItemShow : UserControl
     // 鼠标进入事件：启动进入延迟，取消退出延迟
     private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
+        Canvas.SetZIndex(this, 1);
         // 取消任何待处理的退出延迟
         _exitCts?.Cancel();
         _exitCts = null;
@@ -116,6 +119,7 @@ public sealed partial class ItemShow : UserControl
     // 鼠标离开事件：启动离开延迟，取消进入延迟
     private void UserControl_PointerExited(object sender, PointerRoutedEventArgs e)
     {
+        Canvas.SetZIndex(this, 0);
         // 取消任何待处理的进入延迟
         _enterCts?.Cancel();
         _enterCts = null;

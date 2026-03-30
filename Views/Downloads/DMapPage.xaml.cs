@@ -12,20 +12,23 @@ namespace MindustryBoot.Views.Downloads;
 /// </summary>
 public sealed partial class DMapPage : Page
 {
-    private ObservableCollection<MapType> MapsCollection = new();
+    public ObservableCollection<MapType> MapsCollection = new();
     private MapGetter MapGetter = new();
+    private bool LoadingState;
     public DMapPage()
     {
         InitializeComponent();
+        //MapsCollection.Add(new MapType() { Name = "Name", Describes = "DES" });
         LoadMaps();
     }
 
     private async void LoadMaps()
     {
+        LoadingState = true;
         try
         {
             // 2. 调用 GetMapsAsync 获取第一页地图（无筛选条件）
-            MapsCollection = await MapGetter.GetMapsAsync(
+            var Maps = await MapGetter.GetMapsAsync(
                 begin: 0,
                 mode: null,
                 version: null,
@@ -34,10 +37,18 @@ public sealed partial class DMapPage : Page
             );
 
             // 3. 输出结果
-            Debug.WriteLine($"成功获取 {MapsCollection.Count} 个地图：");
-            foreach (var map in MapsCollection)
+            Debug.WriteLine($"成功获取 {Maps.Count} 个地图：");
+            foreach (var map in Maps)
             {
                 Debug.WriteLine($"- {map.Name} (ID: {map.Id}, 版本: {map.Version ?? "未知"})");
+                MapsCollection.Add(new MapType()
+                {
+                    PreviewImg = map.PreviewImg,
+                    Name = map.Name,
+                    Describes = map.Describes,
+                    Id = map.Id,
+                    Version = map.Version ?? "未知"
+                });
             }
         }
         catch (HttpRequestException ex)
@@ -53,7 +64,11 @@ public sealed partial class DMapPage : Page
         catch (Exception ex)
         {
             // 处理其他意外异常
-            Console.WriteLine($"发生错误: {ex.Message}");
+            Debug.WriteLine($"发生错误: {ex.Message}");
+        }
+        finally
+        {
+            LoadingState = false;
         }
     }
 }

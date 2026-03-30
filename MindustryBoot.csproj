@@ -117,6 +117,7 @@
 	<ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.2.251219" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.3.260211-preview1" />
     <PackageReference Include="DevWinUI" Version="9.5.0" />
     <PackageReference Include="DevWinUI.Controls" Version="9.5.0" />
@@ -127,6 +128,7 @@
   <ItemGroup>
     <Folder Include="Assets\HeaderCarousel\" />
     <Folder Include="BaoMa\GameBooter\" />
+    <Folder Include="Helpers\Converter\" />
   </ItemGroup>
 
   <!-- 
@@ -150,5 +152,34 @@
 
 <ItemGroup>
   <PRIResource Remove="src\**" />
+</ItemGroup>
+
+<ItemGroup>
+  <Content Remove="Assets\Font\font.woff" />
+  <Content Remove="Assets\MindustryIcon\Items\item-beryllium.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-blast-compound.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-carbide.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-coal.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-copper.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-dormant-cyst.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-fissile-matter.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-graphite.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-lead.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-metaglass.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-oxide.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-phase-fabric.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-plastanium.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-pyratite.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-sand.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-scrap.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-silicon.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-spore-pod.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-surge-alloy.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-thorium.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-titanium.png" />
+  <Content Remove="Assets\MindustryIcon\Items\item-tungsten.png" />
+  <Content Remove="Assets\MindustryIcon\OtherVer\ArcIcon.png" />
+  <Content Remove="Assets\MindustryIcon\OtherVer\DefaultIcon.png" />
+  <Content Remove="Assets\MindustryIcon\OtherVer\XIcon.png" />
 </ItemGroup>
 </Project>

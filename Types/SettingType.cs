@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Windows.UI;
+﻿using Windows.UI;
 
 namespace MindustryBoot.Types;
 
