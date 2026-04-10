@@ -74,7 +74,7 @@
                     Icon="{dev:FontIcon Glyph=&#xE713;}"
                     Tag="Settings" />
             </NavigationView.FooterMenuItems>
-            <Frame x:Name="NavFrame" />
+            <Frame x:Name="NavFrame" Clip="{x:Null}" />
         </NavigationView>
     </Grid>
 </Window>

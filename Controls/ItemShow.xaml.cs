@@ -13,8 +13,8 @@ public sealed partial class ItemShow : UserControl
     // 延迟控制专用字段
     private CancellationTokenSource _enterCts;
     private CancellationTokenSource _exitCts;
-    private const int EnterDelayMs = 300;  // 悬停延迟（毫秒）
-    private const int ExitDelayMs = 100;    // 离开延迟（毫秒）
+    private const int EnterDelayMs = 100;  // 悬停延迟（毫秒）
+    private const int ExitDelayMs = 0;    // 离开延迟（毫秒）
 
     private ImageSource _iconSource = null;
 
@@ -27,13 +27,13 @@ public sealed partial class ItemShow : UserControl
     public static readonly DependencyProperty IconSourceProperty =
         DependencyProperty.Register(nameof(IconSource), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
     public static readonly DependencyProperty TitleProperty =
-        DependencyProperty.Register(nameof(Header), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(nameof(Title), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
     public static readonly DependencyProperty SubtitleProperty =
-        DependencyProperty.Register(nameof(Describes), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(nameof(Subtitle), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
     public static readonly DependencyProperty AuthorProperty =
-        DependencyProperty.Register(nameof(Author), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(nameof(Tag), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
     public static readonly DependencyProperty DetailProperty =
-        DependencyProperty.Register(nameof(Detail), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(nameof(DetailedDescription), typeof(string), typeof(ItemShow), new PropertyMetadata(string.Empty));
     public static readonly DependencyProperty DownloadCommandProperty =
         DependencyProperty.Register(nameof(DownloadCommand), typeof(ICommand), typeof(ItemShow), new PropertyMetadata(null));
     public string IconSource
@@ -63,22 +63,22 @@ public sealed partial class ItemShow : UserControl
             }
         }
     }
-    public string Header
+    public string Title
     {
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
-    public string Describes
+    public string Subtitle
     {
         get => (string)GetValue(SubtitleProperty);
         set => SetValue(SubtitleProperty, value);
     }
-    public string Author
+    public new string Tag
     {
         get => (string)GetValue(AuthorProperty);
         set => SetValue(AuthorProperty, value);
     }
-    public string Detail
+    public string DetailedDescription
     {
         get => (string)GetValue(DetailProperty);
         set => SetValue(DetailProperty, value);
@@ -119,7 +119,7 @@ public sealed partial class ItemShow : UserControl
     // 鼠标离开事件：启动离开延迟，取消进入延迟
     private void UserControl_PointerExited(object sender, PointerRoutedEventArgs e)
     {
-        Canvas.SetZIndex(this, 0);
+        
         // 取消任何待处理的进入延迟
         _enterCts?.Cancel();
         _enterCts = null;
@@ -136,6 +136,7 @@ public sealed partial class ItemShow : UserControl
                 _ = DispatcherQueue.TryEnqueue(() =>
                 {
                     VisualStateManager.GoToState(this, "Normal", true);
+                    Canvas.SetZIndex(this, 0);
                 });
             }
         }, TaskScheduler.Default);

@@ -5,6 +5,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\AutoRichText.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\ItemShow.xaml">
       <SubType>Designer</SubType>
     </Page>

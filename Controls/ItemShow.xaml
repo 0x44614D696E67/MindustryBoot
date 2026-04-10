@@ -7,8 +7,7 @@
     xmlns:dev="using:DevWinUI"
     xmlns:local="using:MindustryBoot.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="315"
-    MinWidth="315"
+    MinHeight="114"
     MaxHeight="114"
     PointerEntered="UserControl_PointerEntered"
     PointerExited="UserControl_PointerExited"
@@ -74,10 +73,10 @@
                 </Grid.RowDefinitions>
 
                 <!--  标题  -->
-                <TextBlock
+                <local:AutoRichText
                     Grid.Row="0"
                     Style="{StaticResource BodyStrongTextBlockStyle}"
-                    Text="{x:Bind Header, Mode=OneWay}" />
+                    Text="{x:Bind Title, Mode=OneWay}" />
 
                 <!--  重叠容器：副标题和详细介绍在同一位置  -->
                 <Grid Grid.Row="1">
@@ -87,16 +86,16 @@
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Opacity="1"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind Describes, Mode=OneWay}" />
+                        Text="{x:Bind Subtitle, Mode=OneWay}" />
 
                     <!--  详细介绍（默认隐藏）  -->
                     <dev:AutoScrollView IsPlaying="True">
-                        <TextBlock
+                        <RichTextBlock
                             x:Name="DetailTextBlock"
+                            DataContext="{x:Bind DetailedDescription, Mode=OneWay}"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Opacity="0"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind Detail, Mode=OneWay}"
                             TextWrapping="Wrap" />
                     </dev:AutoScrollView>
                 </Grid>
@@ -109,16 +108,17 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom">
                 <!--  作者名称  -->
-                <Grid Background="Transparent">
+                <Grid x:Name="AuthorTranslateGrid" CornerRadius="4">
                     <Grid.RenderTransform>
                         <TranslateTransform x:Name="AuthorTranslate" Y="0" />
                     </Grid.RenderTransform>
                     <TextBlock
                         x:Name="AuthorTextBlock"
+                        Margin="0,0,-1,0"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         RenderTransformOrigin="0.5,0.5"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind Author, Mode=OneWay}" />
+                        Text="{x:Bind Tag, Mode=OneWay}" />
                 </Grid>
 
 
@@ -169,7 +169,7 @@
                         </DoubleAnimation>
 
                         <!--  图标恢复  -->
-                        <DoubleAnimation
+                        <!--DoubleAnimation
                             Storyboard.TargetName="ImageScaleTransform"
                             Storyboard.TargetProperty="ScaleX"
                             To="1"
@@ -186,10 +186,10 @@
                             <DoubleAnimation.EasingFunction>
                                 <CubicEase EasingMode="EaseInOut" />
                             </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
+                        </DoubleAnimation-->
 
                         <!--  图标移动  -->
-                        <DoubleAnimation
+                        <!--DoubleAnimation
                             Storyboard.TargetName="ImageScaleTransform"
                             Storyboard.TargetProperty="CenterY"
                             To="0"
@@ -206,7 +206,7 @@
                             <DoubleAnimation.EasingFunction>
                                 <CubicEase EasingMode="EaseInOut" />
                             </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
+                        </DoubleAnimation-->
 
                         <!--  作者恢复原位  -->
                         <DoubleAnimation
@@ -297,7 +297,7 @@
                         <DoubleAnimation
                             Storyboard.TargetName="ScaleTransform"
                             Storyboard.TargetProperty="ScaleX"
-                            To="1.2"
+                            To="1.05"
                             Duration="0:0:0.4">
                             <DoubleAnimation.EasingFunction>
                                 <ExponentialEase EasingMode="EaseOut" Exponent="7" />
@@ -306,7 +306,7 @@
                         <DoubleAnimation
                             Storyboard.TargetName="ScaleTransform"
                             Storyboard.TargetProperty="ScaleY"
-                            To="1.2"
+                            To="1.05"
                             Duration="0:0:0.4">
                             <DoubleAnimation.EasingFunction>
                                 <ExponentialEase EasingMode="EaseOut" Exponent="7" />
@@ -314,7 +314,7 @@
                         </DoubleAnimation>
 
                         <!--  图标的反向缩小  -->
-                        <DoubleAnimation
+                        <!--DoubleAnimation
                             Storyboard.TargetName="ImageScaleTransform"
                             Storyboard.TargetProperty="ScaleX"
                             To="0.8334"
@@ -331,9 +331,9 @@
                             <DoubleAnimation.EasingFunction>
                                 <CubicEase EasingMode="EaseInOut" />
                             </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
+                        </DoubleAnimation-->
                         <!--  图标移动  -->
-                        <DoubleAnimation
+                        <!--DoubleAnimation
                             Storyboard.TargetName="ImageScaleTransform"
                             Storyboard.TargetProperty="CenterY"
                             To="30"
@@ -350,7 +350,7 @@
                             <DoubleAnimation.EasingFunction>
                                 <CubicEase EasingMode="EaseInOut" />
                             </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
+                        </DoubleAnimation-->
 
                         <!--  作者上移并淡出  -->
                         <DoubleAnimation

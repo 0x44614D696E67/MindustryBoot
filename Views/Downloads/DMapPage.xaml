@@ -11,7 +11,7 @@
     xmlns:local="using:MindustryBoot.Views.Downloads"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:types="using:MindustryBoot.Types"
+    xmlns:types="using:BaoMa.Types"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -43,14 +43,15 @@
 
         <DataTemplate x:Key="StaggeredTemplate" x:DataType="types:MapType">
             <controls1:ItemShow
-                Describes="{x:Bind Mode}"
-                Detail="{x:Bind Describes}"
-                Header="{x:Bind Name}"
-                IconSource="{x:Bind PreviewImg}" />
+                Title="{x:Bind Name}"
+                DetailedDescription="{x:Bind Describes}"
+                IconSource="{x:Bind PreviewImg}"
+                Subtitle="{x:Bind Mode}"
+                Tag="{x:Bind Id}" />
         </DataTemplate>
     </Page.Resources>
 
-    <StackPanel Spacing="4">
+    <StackPanel Clip="{x:Null}" Spacing="4">
         <dev:SelectorBarSegmented>
             <SelectorBarItem
                 Icon="{dev:FontIcon Glyph=&#xECAD;}"
@@ -76,11 +77,14 @@
             <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE9CE;}" Text="未分类" />
         </dev:SelectorBarSegmented>
 
+        <ToggleSwitch x:Name="LoadingStateToggleSwitch" Visibility="Collapsed" />
+
         <controls:SwitchPresenter
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Clip="{x:Null}"
             TargetType="x:Boolean"
-            Value="{x:Bind LoadingState, Mode=OneWay}">
+            Value="{x:Bind LoadingStateToggleSwitch.IsOn, Mode=OneWay}">
             <controls:Case Value="True">
                 <StackPanel
                     HorizontalAlignment="Center"
@@ -88,7 +92,7 @@
                     animations:Implicit.ShowAnimations="{StaticResource ShowTransitions}"
                     Orientation="Vertical"
                     Spacing="8">
-                    <muxc:ProgressRing IsActive="{x:Bind LoadingState, Mode=OneWay}" />
+                    <muxc:ProgressRing IsActive="{x:Bind LoadingStateToggleSwitch.IsOn, Mode=OneWay}" />
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -97,11 +101,19 @@
                 </StackPanel>
             </controls:Case>
             <controls:Case Value="False">
-                <ScrollViewer animations:Implicit.HideAnimations="{StaticResource HideTransitions}" animations:Implicit.ShowAnimations="{StaticResource ShowTransitions}">
-                    <StackPanel>
+                <ScrollViewer
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    animations:Implicit.HideAnimations="{StaticResource HideTransitions}"
+                    animations:Implicit.ShowAnimations="{StaticResource ShowTransitions}"
+                    Clip="{x:Null}">
+                    <StackPanel Clip="{x:Null}">
                         <TextBlock Text="{x:Bind MapsCollection.Count, Mode=OneWay}" />
                         <muxc:ItemsRepeater
                             x:Name="StaggeredRepeater"
+                            Margin="16"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
                             Clip="{x:Null}"
                             ItemTemplate="{StaticResource StaggeredTemplate}"
                             ItemsSource="{x:Bind MapsCollection, Mode=OneWay}">
@@ -114,7 +126,6 @@
                             </muxc:ItemsRepeater.Layout>
                         </muxc:ItemsRepeater>
                     </StackPanel>
-
                 </ScrollViewer>
             </controls:Case>
         </controls:SwitchPresenter>

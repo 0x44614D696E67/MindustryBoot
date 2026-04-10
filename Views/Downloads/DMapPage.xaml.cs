@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using MindustryBoot.BaoMa.Getter;
+using BaoMa.Getter;
+using BaoMa.Types;
 using MindustryBoot.Types;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -14,7 +15,6 @@ public sealed partial class DMapPage : Page
 {
     public ObservableCollection<MapType> MapsCollection = new();
     private MapGetter MapGetter = new();
-    private bool LoadingState;
     public DMapPage()
     {
         InitializeComponent();
@@ -24,10 +24,10 @@ public sealed partial class DMapPage : Page
 
     private async void LoadMaps()
     {
-        LoadingState = true;
         try
         {
             // 2. 调用 GetMapsAsync 获取第一页地图（无筛选条件）
+            LoadingStateToggleSwitch.IsOn = true;
             var Maps = await MapGetter.GetMapsAsync(
                 begin: 0,
                 mode: null,
@@ -37,6 +37,7 @@ public sealed partial class DMapPage : Page
             );
 
             // 3. 输出结果
+            Debug.WriteLine($"{Maps}");
             Debug.WriteLine($"成功获取 {Maps.Count} 个地图：");
             foreach (var map in Maps)
             {
@@ -46,6 +47,7 @@ public sealed partial class DMapPage : Page
                     PreviewImg = map.PreviewImg,
                     Name = map.Name,
                     Describes = map.Describes,
+                    Tags = map.Tags,
                     Id = map.Id,
                     Version = map.Version ?? "未知"
                 });
@@ -68,7 +70,7 @@ public sealed partial class DMapPage : Page
         }
         finally
         {
-            LoadingState = false;
+            LoadingStateToggleSwitch.IsOn = false;
         }
     }
 }

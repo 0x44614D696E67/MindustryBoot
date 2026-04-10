@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Margin="16,0">
+    <Grid Margin="16,0" Clip="{x:Null}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -29,6 +29,7 @@
         <Frame
             x:Name="ContentFrame"
             Grid.Row="1"
+            Clip="{x:Null}"
             IsNavigationStackEnabled="False" />
     </Grid>
 </Page>

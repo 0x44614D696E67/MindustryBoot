@@ -13,7 +13,7 @@ public sealed partial class DGamePage : Page
         InitializeData();
     }
 
-    private double AnimatedBtnHeight;
+    private double AnimatedButttonHeight;
     private Microsoft.UI.Xaml.Thickness AnimatedBtnMargin;
 
     private void InitializeData()

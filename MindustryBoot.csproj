@@ -42,6 +42,9 @@
     <Page Update="Controls\ItemShow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="Controls\AutoRichText.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="T4Templates\NavigationPageMappings.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NavigationPageMappings.cs</LastGenOutput>
@@ -94,6 +97,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Controls\AutoRichText.xaml" />
     <None Remove="Controls\ItemShow.xaml" />
     <None Remove="Controls\MapShow.xaml" />
     <None Remove="Views\DownloadPage.xaml" />
@@ -118,17 +122,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.2.251219" />
+    <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.2.251219" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.3.260211-preview1" />
-    <PackageReference Include="DevWinUI" Version="9.5.0" />
-    <PackageReference Include="DevWinUI.Controls" Version="9.5.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
+    <PackageReference Include="DevWinUI" Version="9.9.3" />
+    <PackageReference Include="DevWinUI.Controls" Version="9.9.3" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Nucs.JsonSettings" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\HeaderCarousel\" />
-    <Folder Include="BaoMa\GameBooter\" />
-    <Folder Include="Helpers\Converter\" />
   </ItemGroup>
 
   <!-- 
@@ -181,5 +184,9 @@
   <Content Remove="Assets\MindustryIcon\OtherVer\ArcIcon.png" />
   <Content Remove="Assets\MindustryIcon\OtherVer\DefaultIcon.png" />
   <Content Remove="Assets\MindustryIcon\OtherVer\XIcon.png" />
+</ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\BaoMa\BaoMa.csproj" />
 </ItemGroup>
 </Project>

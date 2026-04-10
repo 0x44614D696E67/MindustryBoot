@@ -7,11 +7,11 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
   </Folder>
+  <Project Path="../BaoMa/BaoMa.csproj" Id="78e00372-8bf1-4f08-9f7a-59a6d5b01c8e" />
   <Project Path="MindustryBoot.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
     <Deploy />
   </Project>
-  <Project Path="src/Round.SDK/Round.SDK/Round.SDK.csproj" />
 </Solution>
