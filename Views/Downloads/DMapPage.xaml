@@ -55,7 +55,10 @@
 
     <StackPanel Clip="{x:Null}" Spacing="4">
         <!--  筛选器  -->
-        <ToggleSwitch x:Name="IsComboStyleToggleSwitch" Visibility="Collapsed" />
+        <ToggleSwitch
+            x:Name="IsComboStyleToggleSwitch"
+            IsOn="False"
+            Visibility="Collapsed" />
         <!--
             DM: 这个 IsComboStyleToggleSwitch 用来控制 SwitchPresenter 的 Value 属性绑定以达到切换不同样式的功能
             没人知道为什么这个 ToggleSwitch 是必须的，否则 SwitchPresenter 会报错，提示找不到绑定的属性
@@ -76,7 +79,8 @@
                         x:Name="MapFilterComboBox"
                         Grid.Column="0"
                         HorizontalAlignment="Stretch"
-                        ItemsSource="{x:Bind MapFilterList}">
+                        ItemsSource="{x:Bind MapFilterList}"
+                        SelectionChanged="MapFilterComboBox_SelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="mbTypes:MapFilterTypeOption">
                                 <StackPanel Orientation="Horizontal" Spacing="10">
@@ -90,7 +94,8 @@
                         x:Name="MapSortComboBox"
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
-                        ItemsSource="{x:Bind MapSortList}">
+                        ItemsSource="{x:Bind MapSortList}"
+                        SelectionChanged="MapSortComboBox_SelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="mbTypes:MapFilterTypeOption">
                                 <StackPanel Orientation="Horizontal" Spacing="10">
@@ -105,7 +110,7 @@
 
             <dev:Case Value="False">
                 <StackPanel Orientation="Vertical" Spacing="4">
-                    <dev:SelectorBarSegmented>
+                    <dev:SelectorBarSegmented x:Name="MapSortSelectorBar" SelectionChanged="MapSortSelectorBar_SelectionChanged">
                         <SelectorBarItem
                             Icon="{dev:FontIcon Glyph=&#xECAD;}"
                             IsSelected="True"
@@ -117,7 +122,7 @@
                         <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE8E1;}" Text="点赞数" />
                     </dev:SelectorBarSegmented>
 
-                    <dev:SelectorBarSegmented>
+                    <dev:SelectorBarSegmented x:Name="MapFilterSelectorBar" SelectionChanged="MapFilterSelectorBar_SelectionChanged">
                         <SelectorBarItem
                             Icon="{dev:FontIcon Glyph=&#xE8A9;}"
                             IsSelected="True"

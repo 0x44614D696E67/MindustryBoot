@@ -17,7 +17,10 @@ public sealed partial class DMapPage : Page
     public ObservableCollection<MapFilterTypeOption> MapFilterList { get; }
     public ObservableCollection<MapFilterTypeOption> MapSortList { get; }
 
-    private MapGetter MapGetter = new();
+    private readonly MapGetter MapGetter = new();
+    private int _loadRequestId;
+    private bool _isInitialized;
+
     public DMapPage()
     {
         InitializeComponent();
@@ -33,6 +36,7 @@ public sealed partial class DMapPage : Page
 
         };
         MapSortComboBox.SelectedIndex = 0;
+        MapSortSelectorBar.SelectedItem = MapSortSelectorBar.Items[0];
 
         // 初始化集合，填充原有的六个选项
         MapFilterList = new ObservableCollection<MapFilterTypeOption>
@@ -46,22 +50,60 @@ public sealed partial class DMapPage : Page
             new() { Glyph = "\uE9CE", Text = "未分类" }
         };
         MapFilterComboBox.SelectedIndex = 0;
+        MapFilterSelectorBar.SelectedItem = MapFilterSelectorBar.Items[0];
+
+        _isInitialized = true;
+        LoadMaps();
+    }
+
+    private void MapFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ReloadMapsIfReady();
+    }
+
+    private void MapSortComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ReloadMapsIfReady();
+    }
+
+    private void MapFilterSelectorBar_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+    {
+        ReloadMapsIfReady();
+    }
+
+    private void MapSortSelectorBar_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+    {
+        ReloadMapsIfReady();
+    }
+
+    private void ReloadMapsIfReady()
+    {
+        if (!_isInitialized) return;
+
         LoadMaps();
     }
 
     private async void LoadMaps()
     {
+        var requestId = ++_loadRequestId;
+        var selectedMode = GetSelectedMapMode();
+        var selectedSorting = GetSelectedMapSorting();
+
         try
         {
             // 2. 调用 GetMapsAsync 获取第一页地图（无筛选条件）
             LoadingStateToggleSwitch.IsOn = true;
+            MapsCollection.Clear();
+
             var Maps = await MapGetter.GetMapsAsync(
-                begin: 15,
-                mode: null,
+                begin: 0,
+                mode: selectedMode,
                 version: null,
-                sorting: null,
+                sorting: selectedSorting,
                 search: null
             );
+
+            if (requestId != _loadRequestId) return;
 
             // 3. 输出结果
             Debug.WriteLine($"{Maps}");
@@ -97,7 +139,46 @@ public sealed partial class DMapPage : Page
         }
         finally
         {
-            LoadingStateToggleSwitch.IsOn = false;
+            if (requestId == _loadRequestId)
+            {
+                LoadingStateToggleSwitch.IsOn = false;
+            }
         }
+    }
+
+    private string GetSelectedMapMode()
+    {
+        var selectedFilterText = IsComboStyleToggleSwitch.IsOn
+            ? (MapFilterComboBox.SelectedItem as MapFilterTypeOption)?.Text
+            : (MapFilterSelectorBar.SelectedItem as SelectorBarItem)?.Text;
+
+        return selectedFilterText switch
+        {
+            "生存" => "survival",
+            "PvP" => "pvp",
+            "进攻" => "attack",
+            "沙盒" => "sandbox",
+            "编辑器" => "editor",
+            "未分类" => "unknown",
+            _ => null
+        };
+    }
+
+    private string GetSelectedMapSorting()
+    {
+        var selectedSortText = IsComboStyleToggleSwitch.IsOn
+            ? (MapSortComboBox.SelectedItem as MapFilterTypeOption)?.Text
+            : (MapSortSelectorBar.SelectedItem as SelectorBarItem)?.Text;
+
+        return selectedSortText switch
+        {
+            "热度" => null,
+            "更新时间" => "time",
+            "发布时间" => "created",
+            "下载量" => "downloads",
+            "评分" => "rating",
+            "点赞数" => "likes",
+            _ => null
+        };
     }
 }
