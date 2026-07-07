@@ -13,7 +13,6 @@ internal class SettingType
     #endregion
 
     #region DMapPage
-    public bool IsSortingMethodIsComboBox { get; set; } = true; // 地图排序方式是否为组合框形式
-    public bool IsMapTypeFilterIsComboBox { get; set; } = true; // 地图类型筛选是否为组合框形式
+    public bool IsComboBoxStyle { get; set; } = true; // 筛选器与排序方式是否为组合框样式
     #endregion
 }

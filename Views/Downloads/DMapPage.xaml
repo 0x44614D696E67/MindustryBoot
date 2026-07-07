@@ -62,46 +62,42 @@
             VerticalAlignment="Center"
             Clip="{x:Null}"
             TargetType="x:Boolean"
-            Value="true" />
-        <dev:SelectorBarSegmented>
-            <SelectorBarItem
-                Icon="{dev:FontIcon Glyph=&#xECAD;}"
-                IsSelected="True"
-                Text="热度" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE945;}" Text="更新时间" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE917;}" Text="发布时间" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xEBD3;}" Text="下载量" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE8F2;}" Text="评分" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE8E1;}" Text="点赞数" />
-        </dev:SelectorBarSegmented>
+            Value="True">
+            <dev:Case Value="True">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <ComboBox
+                        x:Name="MapTypeFilterComboBox"
+                        MinWidth="256"
+                        ItemsSource="{x:Bind MapTypeFilter}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="mbTypes:MapTypeSelectorOption">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <FontIcon FontSize="16" Glyph="{x:Bind Glyph}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Text}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </dev:Case>
+            <dev:Case Value="False">
+                <StackPanel Orientation="Vertical">
+                    <dev:SelectorBarSegmented>
+                        <SelectorBarItem
+                            Icon="{dev:FontIcon Glyph=&#xECAD;}"
+                            IsSelected="True"
+                            Text="热度" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE945;}" Text="更新时间" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE917;}" Text="发布时间" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xEBD3;}" Text="下载量" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE8F2;}" Text="评分" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE8E1;}" Text="点赞数" />
+                    </dev:SelectorBarSegmented>
+                    
+                </StackPanel>
 
-        <dev:SelectorBarSegmented>
-            <SelectorBarItem
-                Icon="{dev:FontIcon Glyph=&#xE8A9;}"
-                IsSelected="True"
-                Text="全部" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE774;}" Text="生存" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE835;}" Text="PvP" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE759;}" Text="进攻" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE7B8;}" Text="沙盒" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE771;}" Text="编辑器" />
-            <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE9CE;}" Text="未分类" />
-        </dev:SelectorBarSegmented>
-
-        <ComboBox MinWidth="256" ItemsSource="{x:Bind MapTypeFilter}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="mbTypes:MapTypeSelectorOption">
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <FontIcon FontSize="12" Glyph="{x:Bind Glyph}" />
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            FontSize="14"
-                            Text="{x:Bind Text}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-
+            </dev:Case>
+        </dev:SwitchPresenter>
 
 
         <!--  内容展示  -->

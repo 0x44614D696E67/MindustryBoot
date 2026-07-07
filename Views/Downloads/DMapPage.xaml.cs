@@ -24,18 +24,16 @@ public sealed partial class DMapPage : Page
 
         // 初始化集合，填充原有的六个选项
         MapTypeFilter = new ObservableCollection<MapTypeSelectorOption>
-            {
-                new() { Glyph = "\uE774", Text = "生存" },
-                new() { Glyph = "\uE835", Text = "PvP" },
-                new() { Glyph = "\uE759", Text = "进攻" },
-                new() { Glyph = "\uE7B8", Text = "沙盒" },
-                new() { Glyph = "\uE771", Text = "编辑器" },
-                new() { Glyph = "\uE9CE", Text = "未分类" }
-            };
-
-        // 如果希望默认选中某项，可设置 SelectedIndex（已在 XAML 中设为 0）
-        // 也可通过绑定 SelectedItem 实现双向同步
-
+        {
+            new() { Glyph = "\uE8A9", Text = "全部" },
+            new() { Glyph = "\uE774", Text = "生存" },
+            new() { Glyph = "\uE835", Text = "PvP" },
+            new() { Glyph = "\uE759", Text = "进攻" },
+            new() { Glyph = "\uE7B8", Text = "沙盒" },
+            new() { Glyph = "\uE771", Text = "编辑器" },
+            new() { Glyph = "\uE9CE", Text = "未分类" }
+        };
+        MapTypeFilterComboBox.SelectedIndex = 0;
         LoadMaps();
     }
 

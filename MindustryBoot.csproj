@@ -187,6 +187,7 @@
 </ItemGroup>
 
 <ItemGroup>
-  <ProjectReference Include="..\BaoMa\BaoMa.csproj" />
+  <ProjectReference Include="src\BaoMa\BaoMa.csproj" />
+  <ProjectReference Include="src\Round.SDK\Round.SDK\Round.SDK.csproj" />
 </ItemGroup>
 </Project>
