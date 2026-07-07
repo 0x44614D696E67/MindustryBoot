@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BaoMa")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c12e13cf23118edd2287c072ff6ca9eeae4a174")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ab4427da4bfc8ec6e2c654cd3da34d5db204b228")]
 [assembly: System.Reflection.AssemblyProductAttribute("BaoMa")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BaoMa")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

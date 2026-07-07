@@ -55,22 +55,30 @@
 
     <StackPanel Clip="{x:Null}" Spacing="4">
         <!--  筛选器  -->
-
-
+        <ToggleSwitch x:Name="IsComboStyleToggleSwitch" Visibility="Collapsed" />
+        <!--
+            DM: 这个 IsComboStyleToggleSwitch 用来控制 SwitchPresenter 的 Value 属性绑定以达到切换不同样式的功能
+            没人知道为什么这个 ToggleSwitch 是必须的，否则 SwitchPresenter 会报错，提示找不到绑定的属性
+            也可能他就根本不支持 bool 类型
+        -->
         <dev:SwitchPresenter
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Clip="{x:Null}"
+            HorizontalAlignment="Stretch"
             TargetType="x:Boolean"
-            Value="True">
+            Value="{x:Bind IsComboStyleToggleSwitch.IsOn, Mode=OneWay}">
             <dev:Case Value="True">
-                <StackPanel Orientation="Horizontal" Spacing="8">
+                <Grid ColumnSpacing="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
                     <ComboBox
-                        x:Name="MapTypeFilterComboBox"
-                        MinWidth="256"
-                        ItemsSource="{x:Bind MapTypeFilter}">
+                        x:Name="MapFilterComboBox"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        ItemsSource="{x:Bind MapFilterList}">
                         <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="mbTypes:MapTypeSelectorOption">
+                            <DataTemplate x:DataType="mbTypes:MapFilterTypeOption">
                                 <StackPanel Orientation="Horizontal" Spacing="10">
                                     <FontIcon FontSize="16" Glyph="{x:Bind Glyph}" />
                                     <TextBlock VerticalAlignment="Center" Text="{x:Bind Text}" />
@@ -78,10 +86,25 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </StackPanel>
+                    <ComboBox
+                        x:Name="MapSortComboBox"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        ItemsSource="{x:Bind MapSortList}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="mbTypes:MapFilterTypeOption">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <FontIcon FontSize="16" Glyph="{x:Bind Glyph}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Text}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
             </dev:Case>
+
             <dev:Case Value="False">
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical" Spacing="4">
                     <dev:SelectorBarSegmented>
                         <SelectorBarItem
                             Icon="{dev:FontIcon Glyph=&#xECAD;}"
@@ -93,9 +116,20 @@
                         <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE8F2;}" Text="评分" />
                         <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE8E1;}" Text="点赞数" />
                     </dev:SelectorBarSegmented>
-                    
-                </StackPanel>
 
+                    <dev:SelectorBarSegmented>
+                        <SelectorBarItem
+                            Icon="{dev:FontIcon Glyph=&#xE8A9;}"
+                            IsSelected="True"
+                            Text="全部" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE774;}" Text="生存" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE835;}" Text="PvP" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE759;}" Text="进攻" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE7B8;}" Text="沙盒" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE771;}" Text="编辑器" />
+                        <SelectorBarItem Icon="{dev:FontIcon Glyph=&#xE9CE;}" Text="未分类" />
+                    </dev:SelectorBarSegmented>
+                </StackPanel>
             </dev:Case>
         </dev:SwitchPresenter>
 
@@ -103,9 +137,8 @@
         <!--  内容展示  -->
         <ToggleSwitch x:Name="LoadingStateToggleSwitch" Visibility="Collapsed" />
         <!--
-            DM: 这个 LoadingStateToggleSwitch 用来控制 SwitchPresenter 的 Value 属性绑定以达到切换加载中和加载完成状态的功能
-            没人知道为什么这个 ToggleSwitch 是必须的，否则 SwitchPresenter 会报错，提示找不到绑定的属性
-            也可能他就根本不支持 bool 类型
+            DM: 事实上，你已经知道为什么这里会出现一个 ToggleSwich 了
+            ;)
         -->
 
         <controls:SwitchPresenter

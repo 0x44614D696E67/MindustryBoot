@@ -14,7 +14,8 @@ namespace MindustryBoot.Views.Downloads;
 public sealed partial class DMapPage : Page
 {
     public ObservableCollection<MapType> MapsCollection = new();
-    public ObservableCollection<MapTypeSelectorOption> MapTypeFilter { get; }
+    public ObservableCollection<MapFilterTypeOption> MapFilterList { get; }
+    public ObservableCollection<MapFilterTypeOption> MapSortList { get; }
 
     private MapGetter MapGetter = new();
     public DMapPage()
@@ -22,8 +23,19 @@ public sealed partial class DMapPage : Page
         InitializeComponent();
         //MapsCollection.Add(new MapType() { Name = "Name", Describes = "DES" });
 
+        MapSortList = new ObservableCollection<MapFilterTypeOption>()
+        {
+            new() { Glyph="\uE945", Text="更新时间" },
+            new() { Glyph="\uE917", Text="发布时间" },
+            new() { Glyph="\uE896", Text="下载量" },
+            new() { Glyph="\uE8F2", Text="评分" },
+            new() { Glyph="\uE8E1", Text="点赞数" },
+
+        };
+        MapSortComboBox.SelectedIndex = 0;
+
         // 初始化集合，填充原有的六个选项
-        MapTypeFilter = new ObservableCollection<MapTypeSelectorOption>
+        MapFilterList = new ObservableCollection<MapFilterTypeOption>
         {
             new() { Glyph = "\uE8A9", Text = "全部" },
             new() { Glyph = "\uE774", Text = "生存" },
@@ -33,7 +45,7 @@ public sealed partial class DMapPage : Page
             new() { Glyph = "\uE771", Text = "编辑器" },
             new() { Glyph = "\uE9CE", Text = "未分类" }
         };
-        MapTypeFilterComboBox.SelectedIndex = 0;
+        MapFilterComboBox.SelectedIndex = 0;
         LoadMaps();
     }
 
@@ -44,7 +56,7 @@ public sealed partial class DMapPage : Page
             // 2. 调用 GetMapsAsync 获取第一页地图（无筛选条件）
             LoadingStateToggleSwitch.IsOn = true;
             var Maps = await MapGetter.GetMapsAsync(
-                begin: 0,
+                begin: 15,
                 mode: null,
                 version: null,
                 sorting: null,
