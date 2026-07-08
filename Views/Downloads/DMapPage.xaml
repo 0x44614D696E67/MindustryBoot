@@ -53,10 +53,16 @@
         </DataTemplate>
     </Page.Resources>
 
-    <StackPanel Clip="{x:Null}" Spacing="4">
+    <Grid RowSpacing="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <!--  筛选器  -->
         <ToggleSwitch
             x:Name="IsComboStyleToggleSwitch"
+            Grid.Row="0"
             IsOn="False"
             Visibility="Collapsed" />
         <!--
@@ -65,6 +71,7 @@
             也可能他就根本不支持 bool 类型
         -->
         <dev:SwitchPresenter
+            Grid.Row="0"
             HorizontalAlignment="Stretch"
             TargetType="x:Boolean"
             Value="{x:Bind IsComboStyleToggleSwitch.IsOn, Mode=OneWay}">
@@ -140,16 +147,19 @@
 
 
         <!--  内容展示  -->
-        <ToggleSwitch x:Name="LoadingStateToggleSwitch" Visibility="Collapsed" />
+        <ToggleSwitch
+            x:Name="LoadingStateToggleSwitch"
+            Grid.Row="1"
+            Visibility="Collapsed" />
         <!--
             DM: 事实上，你已经知道为什么这里会出现一个 ToggleSwich 了
             ;)
         -->
 
         <controls:SwitchPresenter
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Clip="{x:Null}"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
             TargetType="x:Boolean"
             Value="{x:Bind LoadingStateToggleSwitch.IsOn, Mode=OneWay}">
             <controls:Case Value="True">
@@ -157,7 +167,6 @@
                     HorizontalAlignment="Center"
                     animations:Implicit.HideAnimations="{StaticResource HideTransitions}"
                     animations:Implicit.ShowAnimations="{StaticResource ShowTransitions}"
-                    Orientation="Vertical"
                     Spacing="8">
                     <muxc:ProgressRing IsActive="{x:Bind LoadingStateToggleSwitch.IsOn, Mode=OneWay}" />
                     <TextBlock
@@ -169,19 +178,22 @@
             </controls:Case>
             <controls:Case Value="False">
                 <ScrollViewer
+                    x:Name="MapsScrollViewer"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     animations:Implicit.HideAnimations="{StaticResource HideTransitions}"
                     animations:Implicit.ShowAnimations="{StaticResource ShowTransitions}"
-                    Clip="{x:Null}">
-                    <StackPanel Clip="{x:Null}">
+                    HorizontalScrollBarVisibility="Disabled"
+                    SizeChanged="MapsScrollViewer_SizeChanged"
+                    VerticalScrollBarVisibility="Visible"
+                    ViewChanged="MapsScrollViewer_ViewChanged">
+                    <StackPanel>
                         <TextBlock Text="{x:Bind MapsCollection.Count, Mode=OneWay}" />
                         <muxc:ItemsRepeater
                             x:Name="StaggeredRepeater"
                             Margin="16"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
-                            Clip="{x:Null}"
                             ItemTemplate="{StaticResource StaggeredTemplate}"
                             ItemsSource="{x:Bind MapsCollection, Mode=OneWay}">
                             <muxc:ItemsRepeater.Layout>
@@ -192,9 +204,26 @@
                                     RowSpacing="5" />
                             </muxc:ItemsRepeater.Layout>
                         </muxc:ItemsRepeater>
+                        <StackPanel
+                            x:Name="IncrementalLoadingPanel"
+                            Margin="0,0,0,16"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="8"
+                            Visibility="Collapsed">
+                            <muxc:ProgressRing
+                                Width="20"
+                                Height="20"
+                                IsActive="True" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="加载更多..." />
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </controls:Case>
         </controls:SwitchPresenter>
-    </StackPanel>
+    </Grid>
 </Page>

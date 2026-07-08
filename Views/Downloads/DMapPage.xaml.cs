@@ -20,6 +20,10 @@ public sealed partial class DMapPage : Page
     private readonly MapGetter MapGetter = new();
     private int _loadRequestId;
     private bool _isInitialized;
+    private bool _isLoadingNextPage;
+    private bool _hasMoreMaps = true;
+    private const int MapsPageSize = 15;
+    private const double LoadMoreThreshold = 240;
 
     public DMapPage()
     {
@@ -53,7 +57,7 @@ public sealed partial class DMapPage : Page
         MapFilterSelectorBar.SelectedItem = MapFilterSelectorBar.Items[0];
 
         _isInitialized = true;
-        LoadMaps();
+        RefreshMaps();
     }
 
     private void MapFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -80,47 +84,51 @@ public sealed partial class DMapPage : Page
     {
         if (!_isInitialized) return;
 
-        LoadMaps();
+        RefreshMaps();
     }
 
-    private async void LoadMaps()
+    private void MapsScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+    {
+        if (e.IsIntermediate) return;
+
+        LoadMoreMapsIfNeeded();
+    }
+
+    private void MapsScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        LoadMoreMapsIfNeeded();
+    }
+
+    private void LoadMoreMapsIfNeeded()
+    {
+        if (!_isInitialized || !_hasMoreMaps || _isLoadingNextPage || LoadingStateToggleSwitch.IsOn) return;
+
+        var distanceToBottom = MapsScrollViewer.ScrollableHeight - MapsScrollViewer.VerticalOffset;
+        if (distanceToBottom <= LoadMoreThreshold)
+        {
+            _ = LoadNextMapsPageAsync();
+        }
+    }
+
+    private async void RefreshMaps()
     {
         var requestId = ++_loadRequestId;
-        var selectedMode = GetSelectedMapMode();
-        var selectedSorting = GetSelectedMapSorting();
 
         try
         {
-            // 2. 调用 GetMapsAsync 获取第一页地图（无筛选条件）
+            _hasMoreMaps = true;
+            _isLoadingNextPage = false;
             LoadingStateToggleSwitch.IsOn = true;
+            IncrementalLoadingPanel.Visibility = Visibility.Collapsed;
             MapsCollection.Clear();
 
-            var Maps = await MapGetter.GetMapsAsync(
-                begin: 0,
-                mode: selectedMode,
-                version: null,
-                sorting: selectedSorting,
-                search: null
-            );
+            var Maps = await GetMapsPageAsync(0);
 
             if (requestId != _loadRequestId) return;
 
-            // 3. 输出结果
-            Debug.WriteLine($"{Maps}");
-            Debug.WriteLine($"成功获取 {Maps.Count} 个地图：");
-            foreach (var map in Maps)
-            {
-                Debug.WriteLine($"- {map.Name} (ID: {map.Id}, 版本: {map.Version ?? "未知"})");
-                MapsCollection.Add(new MapType()
-                {
-                    PreviewImg = map.PreviewImg,
-                    Name = map.Name,
-                    Describes = map.Describes,
-                    Tags = map.Tags,
-                    Id = map.Id,
-                    Version = map.Version ?? "未知"
-                });
-            }
+            AppendMaps(Maps);
+            _hasMoreMaps = Maps.Count >= MapsPageSize;
+            QueueLoadMoreCheck();
         }
         catch (HttpRequestException ex)
         {
@@ -143,6 +151,81 @@ public sealed partial class DMapPage : Page
             {
                 LoadingStateToggleSwitch.IsOn = false;
             }
+        }
+    }
+
+    private async Task LoadNextMapsPageAsync()
+    {
+        var requestId = _loadRequestId;
+
+        try
+        {
+            _isLoadingNextPage = true;
+            IncrementalLoadingPanel.Visibility = Visibility.Visible;
+
+            var Maps = await GetMapsPageAsync(MapsCollection.Count);
+
+            if (requestId != _loadRequestId) return;
+
+            AppendMaps(Maps);
+            _hasMoreMaps = Maps.Count >= MapsPageSize;
+            QueueLoadMoreCheck();
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"HTTP 请求失败: {ex.Message}");
+        }
+        catch (InvalidOperationException ex)
+        {
+            Debug.WriteLine($"数据无效: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"发生错误: {ex.Message}");
+        }
+        finally
+        {
+            if (requestId == _loadRequestId)
+            {
+                _isLoadingNextPage = false;
+                IncrementalLoadingPanel.Visibility = Visibility.Collapsed;
+            }
+        }
+    }
+
+    private void QueueLoadMoreCheck()
+    {
+        _ = DispatcherQueue.TryEnqueue(LoadMoreMapsIfNeeded);
+    }
+
+    private Task<ObservableCollection<MapType>> GetMapsPageAsync(int begin)
+    {
+        return MapGetter.GetMapsAsync(
+            begin: begin,
+            mode: GetSelectedMapMode(),
+            version: null,
+            sorting: GetSelectedMapSorting(),
+            search: null
+        );
+    }
+
+    private void AppendMaps(ObservableCollection<MapType> maps)
+    {
+        Debug.WriteLine($"{maps}");
+        Debug.WriteLine($"成功获取 {maps.Count} 个地图：");
+
+        foreach (var map in maps)
+        {
+            Debug.WriteLine($"- {map.Name} (ID: {map.Id}, 版本: {map.Version ?? "未知"})");
+            MapsCollection.Add(new MapType()
+            {
+                PreviewImg = map.PreviewImg,
+                Name = map.Name,
+                Describes = map.Describes,
+                Tags = map.Tags,
+                Id = map.Id,
+                Version = map.Version ?? "未知"
+            });
         }
     }
 

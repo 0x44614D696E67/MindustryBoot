@@ -10,8 +10,8 @@
 
   <Identity
     Name="83ea2397-0fc9-43e7-92e3-b6d40979a87a"
-    Publisher="CN=Administrator"
-    Version="1.0.0.0" />
+    Publisher="CN=DaMing"
+    Version="0.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="83ea2397-0fc9-43e7-92e3-b6d40979a87a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
